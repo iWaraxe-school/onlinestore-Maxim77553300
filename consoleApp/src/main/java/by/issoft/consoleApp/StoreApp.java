@@ -2,11 +2,14 @@ package by.issoft.consoleApp;
 
 import by.issoft.store.Store;
 
-public class StoreApp {
-    public static void main(String[] args) {
-        Store store = new Store();
+import java.lang.reflect.InvocationTargetException;
 
-        store.printAllStoreGoods(store);
+public class StoreApp {
+    public static void main(String[] args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+
+        Class<? extends Store> storeClass = Store.class;
+        Store storeObject = storeClass.getConstructor().newInstance();
+        storeObject.printAllStoreGoods(storeObject);
 
     }
 }

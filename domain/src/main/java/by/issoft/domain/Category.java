@@ -8,7 +8,6 @@ public class Category {
     private final String nameCategory;
     private List<Product> products;
 
-
     public Category(String nameCategory) {
         this.nameCategory = nameCategory;
     }

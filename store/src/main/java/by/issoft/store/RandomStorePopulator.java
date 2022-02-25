@@ -6,20 +6,15 @@ import com.github.javafaker.Faker;
 
 public class RandomStorePopulator {
 
-    private String name;
-    private Double rate;
     private ProductPrice price;
     Faker faker = new Faker();
 
-
     public String getName(Category category) {
-        name = category.toString() + " " + faker.food().dish();
-        return name;
+        return category.toString() + " " + faker.food().dish();
     }
 
     public Double getRate() {
-        rate = faker.random().nextDouble();
-        return rate;
+        return faker.random().nextDouble();
     }
 
     public ProductPrice getPrice() {
