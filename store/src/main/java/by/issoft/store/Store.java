@@ -3,12 +3,9 @@ package by.issoft.store;
 
 import by.issoft.domain.Category;
 import by.issoft.domain.Product;
-import com.google.common.eventbus.Subscribe;
-import org.reflections.Reflections;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Store {
 
@@ -29,7 +26,6 @@ public class Store {
 
 
     }
-
 
 
 }
