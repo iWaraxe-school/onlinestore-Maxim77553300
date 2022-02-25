@@ -1,4 +1,59 @@
 package by.issoft.store;
 
+import by.issoft.domain.Category;
+import by.issoft.domain.Product;
+import org.reflections.Reflections;
+import org.reflections.scanners.SubTypesScanner;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
+
 public class StoreHelper {
+
+    Store store;
+
+    public StoreHelper(Store store) {
+        this.store = store;
+    }
+
+    public void fillStore() {
+        Map<Category, Integer> categoryProductsMapToAdd = createRandomCategoryMap();
+        RandomStorePopulator randomStorePopulator = new RandomStorePopulator();
+
+        for (Map.Entry<Category, Integer> entry : categoryProductsMapToAdd.entrySet()) {
+            for (int i = 0; i < entry.getValue(); i++) {
+                Product product = new Product(randomStorePopulator.getName(entry.getKey())
+                ,randomStorePopulator.getRate()
+                ,randomStorePopulator.getPrice());
+                entry.getKey().addProducts(product);
+            }
+
+            this.store.categories.add(entry.getKey());
+        }
+
+    }
+
+    public static Map<Category, Integer> createRandomCategoryMap() {
+        Map<Category, Integer> categoryMap = new HashMap<>();
+
+        Reflections reflections = new Reflections("by.issoft.domain.categories", new SubTypesScanner());
+        Set<Class<? extends Category>> subTypesOf = reflections.getSubTypesOf(Category.class);
+
+        for (Class<? extends Category> type : subTypesOf) {
+            Random random = new Random();
+            try {
+                categoryMap.put(type.getConstructor().newInstance(), random.nextInt(10));
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+        }
+        return categoryMap;
+    }
+
 }
