@@ -3,10 +3,11 @@ package by.issoft.store;
 import by.issoft.domain.Category;
 import by.issoft.domain.Product;
 import org.reflections.Reflections;
-import org.reflections.scanners.SubTypesScanner;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 
 public class StoreHelper {
 
@@ -30,11 +31,10 @@ public class StoreHelper {
         for (Map.Entry<Category, Integer> entry : categoryProductsMapToAdd.entrySet()) {
             for (int i = 0; i < entry.getValue(); i++) {
                 Product product = new Product(randomStorePopulator.getName(entry.getKey())
-                ,randomStorePopulator.getRate()
-                ,randomStorePopulator.getPrice());
+                        , randomStorePopulator.getRate(entry.getKey())
+                        , randomStorePopulator.getPrice(entry.getKey()));
                 entry.getKey().addProducts(product);
             }
-
             this.store.categories.add(entry.getKey());
         }
     }

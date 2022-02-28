@@ -2,28 +2,22 @@ package by.issoft.store;
 
 import by.issoft.domain.Category;
 import by.issoft.domain.ProductPrice;
-import com.github.javafaker.Faker;
 
 public class RandomStorePopulator {
 
-    private ProductPrice price;
-    Faker faker = new Faker();
-
     public String getName(Category category) {
-        return category.toString() + " " + faker.food().dish();
+        return category.toString() + " " + category.getFaker().company().name();
     }
 
-    public Double getRate() {
-        return faker.random().nextDouble();
+    public Double getRate(Category category) {
+        return (double) Math.round((1.00 + category.getFaker().random().nextDouble() * (99.00)));
     }
 
-    public ProductPrice getPrice() {
-        price = new ProductPrice(faker.random().nextDouble());
-        return price;
+    public ProductPrice getPrice(Category category) {
+        return category.getPrice(category);
     }
 
     public void setPrice(ProductPrice price) {
-        this.price = price;
     }
 
 }

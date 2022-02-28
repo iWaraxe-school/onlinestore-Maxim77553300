@@ -10,18 +10,17 @@ public class ProductPrice {
     public ProductPrice(Double price) {
         this.price = price;
     }
+
     // example - factory method
-    public static ProductPrice of(Double price){
-        Preconditions.checkArgument(price > 0,"Price must be positive");
-        Preconditions.checkArgument(price < 10000,"Price must less than 10000");
+    public static ProductPrice of(Double price) {
+        Preconditions.checkArgument(price > 0, "Price must be positive");
+        Preconditions.checkArgument(price < 10000, "Price must less than 10000");
 
         return new ProductPrice(price);
     }
 
     @Override
     public String toString() {
-        return "ProductPrice{" +
-                "price=" + price +
-                '}';
+        return "Price :" + price;
     }
 }

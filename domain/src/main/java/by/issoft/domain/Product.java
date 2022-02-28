@@ -3,7 +3,7 @@ package by.issoft.domain;
 
 public class Product {
 
-//    private final String name;
+    //    private final String name;
     private String name;
     private Double rate;
     private ProductPrice price;
@@ -45,11 +45,10 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Product{" +
-                "name='" + name + '\'' +
-                ", rate=" + rate +
-                ", price=" + price +
-                '}';
+        return "Product " +
+                "name :'" + name + '\'' +
+                ", rate :" + rate +
+                "," + price;
     }
 
 }
