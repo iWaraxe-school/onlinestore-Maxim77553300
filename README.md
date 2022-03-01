@@ -1,26 +1,33 @@
-# 3. OOP
+# 4. Collections
 ## Materials
-- [OOP](https://docs.oracle.com/javase/tutorial/java/concepts/index.html)
-- [Lecture 3](https://drive.google.com/file/d/17R4SCXEd9B8a89UsJ-nLNYMFwM\_p8Fn9/view?usp=sharing)
-- [Lecture 4](https://drive.google.com/file/d/14RC5dJno\_FcSfBe\_FAd9zeqpFSUj8odH/view?usp=sharing)
-- [Reflection](https://docs.oracle.com/javase/tutorial/reflect/)
-- [Reflections Lib](https://github.com/ronmamo/reflections)
-- [Faker](https://github.com/DiUS/java-faker)
+- [Collections](https://docs.oracle.com/javase/tutorial/collections/index.html)
+- [Lecture 9](https://drive.google.com/file/d/13TibWYVYc8CaFVcLUMklHLrqkmS5Q6h\_/view?usp=sharing)
+- [XML](https://en.wikipedia.org/wiki/XML)
+- [XML processing](https://docs.oracle.com/javase/tutorial/jaxp/)
+
 ## VideoLectures
--  [03.oop.u1. Classes & Object](https://youtu.be/e8CFYiHeUi0)
--  [03.oop.u2. Reflections. ENUM](https://youtu.be/RrqTz-Qbtqg)
--  [03.oop.u3. OOP principles](https://youtu.be/zG-MNwEW6JY)
--  [03.oop.u4. Equals&HashCodes. Abstract Classes](https://youtu.be/zPmcv6xRoag)
--  [03.oop.u5. Wrapper Classes](https://youtu.be/W5uTGYVeslk)
--  [03.oop.u6. Interfaces](https://youtu.be/JGgKbMcDnOo)
-## Task #3
-Before start creating source code, read carefully all materials about OOP. It is not only 3 principles for interview;)
-Store functionality should be based on above principles.
-Classes to create:
-- `Product` with such attributes as [name, rate, price]
-- `Category` classes with the name attribute, for each store category [bike, phone, milk] and products list
-- `Store` - class that should handle category list
-- `RandomStorePopulator` - utility class that will populate out store/category with fake data using `Faker` lib
-- `StoreApp` - class with main method to execute our store scenario.
-When invoke main method, application should init store with categories and products and `pretty` print this data.
-Also, categories should be read dynamically (at runtime), from base category package using `reflections` lib.
+[Collections playlist](https://youtube.com/playlist?list=PL96uE92X-ozdXTE7PoMfFQJ2CBz-hv9YK)
+- [Collections, Lists, Sets, Unmodifiable Lists and Sets](https://youtu.be/boKGhpMjqUw)
+- [Lists, Sets, Maps, Unmodifiable Maps](https://youtu.be/48s7xoswhkE)
+- [Generics (part 1)](https://youtu.be/vT2I3LcLWJM)
+- [Generics (part 2)](https://youtu.be/9mwtYNzWUV0)
+- [Functional Interfaces, Introduction to lambdas](https://youtu.be/Fp2R6uY02o8)
+- [Lambdas](https://youtu.be/RQ30tUIppQU)
+- [Stream API](https://youtu.be/4coew\_omxRo)
+- [PrimitiveStream, Optional](https://youtu.be/KU6RbxTzTj0)
+## Task #4
+Starting extend our store. Please append ability user to interact with our store, while sending commands through read stream.
+Add support of such commands: 
+- `sort` - products from store according config. In resources folder create xml config file like
+```
+xml
+<sort>
+    <name>asc</name>
+    <price>asc</price>
+    <rate>desc</rate>
+</sort>
+```
+Config file can contains from 1 to N fields. Sort should be done using `Comparator`. Sort and print should not modify
+ default store product lists and their order.
+- `top` - print top 5 products of whole store sorted via price desc
+- `quit` - exit app
