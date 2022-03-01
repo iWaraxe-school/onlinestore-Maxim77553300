@@ -14,8 +14,7 @@ public class PhoneCategory extends Category {
     }
 
     @Override
-    public ProductPrice getPrice(Category category) {
-        return new ProductPrice((double) Math.round(100.00 + category.getFaker().random().nextDouble() * (10000.00)));
-
+    public ProductPrice generatePrice(Category category, Double min, Double max) {
+        return super.generatePrice(category,100.00,10000.00);
     }
 }

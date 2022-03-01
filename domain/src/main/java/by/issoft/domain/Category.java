@@ -12,6 +12,8 @@ public class Category {
     private List<Product> products;
     private final Faker faker = new Faker();
     private ProductPrice price;
+    private Double min;
+    private Double max;
 
     public String getNameCategory() {
         return nameCategory;
@@ -21,7 +23,8 @@ public class Category {
         return faker;
     }
 
-    public ProductPrice getPrice() {
+    public ProductPrice getPrice(Category category) {
+        generatePrice(category,min,max);
         return price;
     }
 
@@ -56,15 +59,14 @@ public class Category {
         }
     }
 
-    public ProductPrice getPrice(Category category) {
-        price = new ProductPrice((double) Math.round(1.00 + faker.random().nextDouble() * (10000.00)));
+    public ProductPrice generatePrice(Category category, Double min, Double max) {
+        price = new ProductPrice((double) Math.round(min + faker.random().nextDouble() * (max)));
         return price;
     }
 
     @Override
     public String toString() {
         return this.nameCategory;
-
     }
 
     @Override

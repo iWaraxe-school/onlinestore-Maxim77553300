@@ -14,7 +14,7 @@ public class MilkCategory extends Category {
     }
 
     @Override
-    public ProductPrice getPrice(Category category) {
-        return new ProductPrice((double) Math.round(1.00 + category.getFaker().random().nextDouble() * (10.00)));
+    public ProductPrice generatePrice(Category category,Double min,Double max) {
+        return super.generatePrice(category,1.00,10.00);
     }
 }
