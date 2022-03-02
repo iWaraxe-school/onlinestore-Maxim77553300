@@ -60,7 +60,7 @@ public class Category {
     }
 
     public ProductPrice generatePrice(Category category, Double min, Double max) {
-        price = new ProductPrice((double) Math.round(min + faker.random().nextDouble() * (max)));
+        price = ProductPrice.of(((double) Math.round(min + faker.random().nextDouble() * (max))));
         return price;
     }
 
