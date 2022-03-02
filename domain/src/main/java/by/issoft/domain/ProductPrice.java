@@ -7,7 +7,7 @@ public class ProductPrice {
 
     private final Double price;
 
-    public ProductPrice(Double price) {
+    private ProductPrice(Double price) {
         this.price = price;
     }
 
