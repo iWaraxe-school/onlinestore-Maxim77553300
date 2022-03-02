@@ -26,8 +26,8 @@ public class Product {
     }
 
 
-    public ProductPrice getPrice() {
-        return price;
+    public Double getPrice() {
+        return price.getPrice();
     }
 
     public void setRate(Double rate) {

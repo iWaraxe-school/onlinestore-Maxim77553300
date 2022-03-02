@@ -19,6 +19,10 @@ public class ProductPrice {
         return new ProductPrice(price);
     }
 
+    public Double getPrice() {
+        return price;
+    }
+
     @Override
     public String toString() {
         return "Price :" + price;
