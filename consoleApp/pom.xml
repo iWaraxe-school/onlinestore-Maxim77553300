@@ -11,6 +11,13 @@
 
     <artifactId>consoleApp</artifactId>
     <packaging>jar</packaging>
+    <dependencies>
+        <dependency>
+            <groupId>com.onlinestore-Maxim7755330071</groupId>
+            <artifactId>store</artifactId>
+            <version>1</version>
+        </dependency>
+    </dependencies>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
