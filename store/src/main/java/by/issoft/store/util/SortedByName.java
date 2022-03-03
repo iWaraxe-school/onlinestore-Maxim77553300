@@ -4,7 +4,7 @@ import by.issoft.domain.Product;
 
 import java.util.Comparator;
 
-public class SortedByName implements Comparator<Product> {
+public class SortedByName extends Sorted implements Comparator<Product> {
 
     @Override
     public int compare(Product product1, Product product2) {

@@ -16,6 +16,10 @@ public class StoreHelper {
     public StoreHelper() {
     }
 
+    public Store getStore() {
+        return store;
+    }
+
     public StoreHelper(Store store) {
         this.store = store;
     }

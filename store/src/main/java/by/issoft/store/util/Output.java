@@ -34,8 +34,8 @@ public class Output {
                 System.out.println("PLEASE, ENTER COMMAND:\nsort \ntop \nquit \n");
                 String line = reader.readLine();
                 String line2 = switch (line) {
-                    case "sort" -> "0";
-                    case "top" -> "2";
+                    case "sort" -> "Please, chose variant of sort:\nname\nrate\nprice";
+                    case "top" ->  "1";
                     case "quit" -> "3";
                     default -> "Error! Please enter real command!!";
                 };
