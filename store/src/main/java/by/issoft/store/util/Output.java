@@ -40,7 +40,7 @@ public class Output {
                     default -> "Error! Please enter real command!!";
                 };
                 System.out.println(line2);
-                if (line2 == "3") {
+                if (line2.equals("3")) {
                     i = false;
                 }
             }

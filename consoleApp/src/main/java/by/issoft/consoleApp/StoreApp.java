@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class StoreApp {
 
-    public static void main(String[] args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, IOException, ParserConfigurationException, SAXException {
+    public static void main(String[] args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         XmlParser xmlParser = new XmlParser();
         Output.printAllGoods();
         Output.printCommand();

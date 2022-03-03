@@ -10,12 +10,6 @@ public class SortedByRate extends Sorted implements Comparator<Product> {
         Double rate1 = product1.getRate();
         Double rate2 = product2.getRate();
 
-        if(rate1 > rate2){
-            return 1;
-        } else if(rate1 < rate2){
-            return -1;
-        } else {
-            return 0;
-        }
+        return rate1.compareTo(rate2);
     }
 }

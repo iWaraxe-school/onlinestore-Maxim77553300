@@ -22,19 +22,21 @@ public class XmlParser {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         Node rootNode = doc.getFirstChild();
+
         NodeList nodeList = rootNode.getChildNodes();
+
         return fillMap(nodeList);
     }
 
     private Document buildDocument(String path) throws ParserConfigurationException, IOException, SAXException {
         File file = new File(path);
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-        Document doc = documentBuilderFactory.newDocumentBuilder().parse(file);
-        return doc;
+        return documentBuilderFactory.newDocumentBuilder().parse(file);
     }
 
-    private static Map<String,String> fillMap(NodeList nodeList){
+    private static Map<String, String> fillMap(NodeList nodeList) {
         Map<String, String> configMap = new HashMap<>();
 
         for (int i = 0; i < nodeList.getLength(); i++) {
@@ -44,7 +46,7 @@ public class XmlParser {
             if (nodeList.item(i).getNodeName().equals("sort")) {
                 continue;
             }
-                    configMap.put(nodeList.item(i).getNodeName(),nodeList.item(i).getTextContent());
+            configMap.put(nodeList.item(i).getNodeName(), nodeList.item(i).getTextContent());
         }
         return configMap;
     }

@@ -13,7 +13,7 @@ public class Sort {
         Class<? extends Sorted> aClass = kindOfSort.getClass();
         Sorted objectKindOfSorted = aClass.getConstructor().newInstance();
 
-        Collections.sort(products,objectKindOfSorted);
+        products.sort(objectKindOfSorted);
         return products;
     }
 }
