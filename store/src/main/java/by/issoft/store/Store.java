@@ -11,7 +11,7 @@ import java.util.List;
 public class Store {
 
     public List<Category> categories = new ArrayList<>();
-    public List<Product> productList;
+    public List<Product> productList = new ArrayList<>();
 
     public Store() {
     }
@@ -34,9 +34,9 @@ public class Store {
             e.printStackTrace();
         }
 
-        for (Category category : categories) {
-            productList = category.getProducts();
-        }
+//        for (Category category : categories) {
+//            productList = category.getProducts();
+//        }
         return productList;
 
     }

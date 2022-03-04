@@ -14,7 +14,7 @@ public class ProductPrice {
     // example - factory method
     public static ProductPrice of(Double price) {
         Preconditions.checkArgument(price > 0, "Price must be positive");
-        Preconditions.checkArgument(price < 10000, "Price must less than 10000");
+        Preconditions.checkArgument(price < 10100, "Price must less than 10000");
 
         return new ProductPrice(price);
     }

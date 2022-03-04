@@ -47,7 +47,7 @@ public class Product {
         return "Product " +
                 "name :'" + name + '\'' +
                 ", rate :" + rate +
-                "," + price;
+                "," + price + "\n";
     }
 
 }
