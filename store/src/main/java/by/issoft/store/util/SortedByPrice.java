@@ -10,6 +10,7 @@ public class SortedByPrice extends Sorted implements Comparator<Product> {
 
     private static final String name = "price";
 
+
     @Override
     public int compare(Product product1, Product product2) {
 
@@ -33,6 +34,7 @@ public class SortedByPrice extends Sorted implements Comparator<Product> {
         }
         return KindOfSort.DESC;
     }
+
 
 }
 

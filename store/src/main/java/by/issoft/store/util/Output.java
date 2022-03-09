@@ -9,19 +9,23 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Output {
 
     private final static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     private static Sorted sorted;
+    private static List<Product> products;
+    private static Store storeObject;
 
     public static void printAllGoods() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         Class<? extends Store> storeClass = Store.class;
-        Store storeObject = storeClass.getConstructor().newInstance();
+        storeObject = storeClass.getConstructor().newInstance();
 
-        List<Product> products = storeObject.getAllStoreGoods(storeObject);
+        products = storeObject.getAllStoreGoods(storeObject);
         for (Category category : storeObject.categories) {
             System.out.println("Section " + category.getNameCategory());
             for (Product product : category.getProducts()) {
@@ -37,7 +41,7 @@ public class Output {
             String line = reader.readLine();
             switch (line) {
                 case "sort" -> printSortMenu();
-                case "top" -> System.out.println("top sort!!");
+                case "top" -> printGoods(getTopSortedGoods());
                 case "quit" -> {
                     return false;
                 }
@@ -62,30 +66,38 @@ public class Output {
             case "1" -> {
                 System.out.println("Sort by rate");
                 sorted = new SortedByRate();
-                getSortedGoods();
+                printGoods(getSortedGoods());
             }
             case "2" -> {
                 System.out.println("Sort by price");
                 sorted = new SortedByPrice();
-                getSortedGoods();
+                printGoods(getSortedGoods());
             }
             case "3" -> {
                 System.out.println("Sorted by name");
                 sorted = new SortedByName();
-                getSortedGoods();
             }
         }
     }
 
-    private static void getSortedGoods() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        Class<? extends Store> storeClass = Store.class;
-        Store storeObject = storeClass.getConstructor().newInstance();
+    private static List<Product> getSortedGoods() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
 
-        List<Product> products = storeObject.getAllStoreGoods(storeObject);
+        products = storeObject.getAllStoreGoods(storeObject);
         for (Category category : storeObject.categories) {
             products.addAll(category.getProducts());
         }
-
-        System.out.println(Sort.sortProducts(products, sorted));
+        return Sort.sortProducts(products, sorted);
     }
+
+    private static List<Product> getTopSortedGoods() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        sorted = new SortedByPriceTop();
+        getSortedGoods();
+      //  System.out.println(Sort.sortProducts(products, sorted));
+
+        return Sort.sortProducts(products.stream().limit(5).collect(Collectors.toList()), sorted);
+    }
+    private static void printGoods(List<Product> sortedProductList){
+        System.out.println(sortedProductList);
+    }
+
 }
