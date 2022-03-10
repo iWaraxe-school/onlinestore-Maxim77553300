@@ -10,10 +10,10 @@ import java.util.Map;
 public class Sort {
 
     public static List<Product> sortProducts(List<Product> products, Sorted kindOfSort) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        Class<? extends Sorted> aClass = kindOfSort.getClass();
-        Sorted objectKindOfSorted = aClass.getConstructor().newInstance();
-
-        products.sort(objectKindOfSorted);
+//        Class<? extends Sorted> aClass = kindOfSort.getClass();
+//        Sorted objectKindOfSorted = aClass.getConstructor().newInstance();
+//
+//        products.sort(objectKindOfSorted);
         return products;
     }
 

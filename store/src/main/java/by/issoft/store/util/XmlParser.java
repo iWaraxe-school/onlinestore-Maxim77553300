@@ -7,13 +7,34 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Properties;
 
 // Dom Parser
 public class XmlParser {
+
+    private String pathXml;
+
+    private Properties prop;
+
+    protected static Map<String, String> configMap = new LinkedHashMap<>();
+
+    public String getPathXml() {
+        return pathXml;
+    }
+
+    {
+        try {
+            prop = readPropertiesFile("store/src/main/resources/app.properties");
+            pathXml = prop.getProperty("pathXml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public Map<String, String> parseXmlConfig(String pathXml) {
         Document doc = null;
@@ -37,7 +58,7 @@ public class XmlParser {
     }
 
     private static Map<String, String> fillMap(NodeList nodeList) {
-        Map<String, String> configMap = new HashMap<>();
+
 
         for (int i = 0; i < nodeList.getLength(); i++) {
             if (nodeList.item(i).getNodeType() != Node.ELEMENT_NODE) {
@@ -49,5 +70,24 @@ public class XmlParser {
             configMap.put(nodeList.item(i).getNodeName(), nodeList.item(i).getTextContent());
         }
         return configMap;
+    }
+
+    public static Properties readPropertiesFile(String fileName) throws IOException {
+        FileInputStream fis = null;
+        Properties prop = null;
+        try {
+            fis = new FileInputStream(fileName);
+            prop = new Properties();
+            prop.load(fis);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            fis.close();
+        }
+
+        return prop;
     }
 }

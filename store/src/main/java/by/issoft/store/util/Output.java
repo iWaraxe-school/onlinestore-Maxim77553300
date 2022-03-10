@@ -8,7 +8,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +19,8 @@ public class Output {
     private static Sorted sorted;
     private static List<Product> products;
     private static Store storeObject;
+    protected static String commandName;
+
 
     public static void printAllGoods() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         Class<? extends Store> storeClass = Store.class;
@@ -51,7 +52,8 @@ public class Output {
 
     public static void printSortMenu() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, IOException {
         XmlParser xmlParser = new XmlParser();
-        Map<String, String> map = xmlParser.parseXmlConfig("store/src/main/resources/config.xml");
+        Map<String, String> map = xmlParser.parseXmlConfig(xmlParser.getPathXml());
+
 
         System.out.println("How do you want to sort products? Make your choice!");
         int count = 1;
@@ -65,17 +67,34 @@ public class Output {
         switch (s) {
             case "1" -> {
                 System.out.println("Sort by rate");
-                sorted = new SortedByRate();
-                printGoods(getSortedGoods());
+                commandName = "rate";
+//                SortingComparator<Double> sortingComparator = new SortingComparator<>();
+//                products.sort(sortingComparator);
+//                SortingByEverything<Double> sortingByEverything = new SortingByEverything();
+//                sortingByEverything.getSortedGoods(storeObject);
+
+//                sorted = new SortedByRate();
+//                printGoods(getSortedGoods());
             }
             case "2" -> {
                 System.out.println("Sort by price");
-                sorted = new SortedByPrice();
-                printGoods(getSortedGoods());
+                commandName = "price";
+                Collections.sort(getSortedGoods(),new SortingComparator());
+//                SortingByEverything<Double> sortingByEverything = new SortingByEverything();
+//                sortingByEverything.getSortedGoods(storeObject);
+
+
+//                printMapGoods(sorted.getSortedGoods(products));
+//                sorted = new SortedByPrice();
+ //               printGoods(getSortedGoods());
             }
             case "3" -> {
                 System.out.println("Sorted by name");
-                sorted = new SortedByName();
+                commandName = "name";
+                SortingByEverything<String> sortingByEverything = new SortingByEverything();
+                sortingByEverything.getSortedGoods(storeObject);
+
+//                sorted = new SortedByName();
             }
         }
     }
@@ -98,6 +117,12 @@ public class Output {
     }
     private static void printGoods(List<Product> sortedProductList){
         System.out.println(sortedProductList);
+    }
+
+    private static void printMapGoods(Map<Product,Double> map){
+        for(Map.Entry<Product,Double> entry: map.entrySet()){
+            System.out.println(entry.getKey().getName() +" " + entry.getValue());
+        }
     }
 
 }

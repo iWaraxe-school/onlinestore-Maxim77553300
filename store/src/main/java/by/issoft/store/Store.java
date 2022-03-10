@@ -16,6 +16,10 @@ public class Store {
     public Store() {
     }
 
+    public List<Product> getProductList() {
+        return productList;
+    }
+
     public List<Product> getAllStoreGoods(Store store) {
 
         Class<StoreHelper> storeHelperClass = StoreHelper.class;

@@ -25,7 +25,7 @@ public class SortedByName extends Sorted implements Comparator<Product> {
     private static KindOfSort getSortParams() {
 
         XmlParser xmlParser = new XmlParser();
-        Map<String, String> stringStringMap = xmlParser.parseXmlConfig("store/src/main/resources/config.xml");
+        Map<String, String> stringStringMap = xmlParser.parseXmlConfig(xmlParser.getPathXml());
 
         if (stringStringMap.get(name).equals("asc")) {
             return KindOfSort.ASC;
