@@ -79,7 +79,7 @@ public class Output {
             case "2" -> {
                 System.out.println("Sort by price");
                 commandName = "price";
-                Collections.sort(getSortedGoods(),new SortingComparator());
+              //  Collections.sort(getSortedGoods(),new SortingComparator());
 //                SortingByEverything<Double> sortingByEverything = new SortingByEverything();
 //                sortingByEverything.getSortedGoods(storeObject);
 
