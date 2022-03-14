@@ -11,9 +11,13 @@ import java.util.Set;
 
 public class StoreHelper {
 
-    Store store;
+    private Store store;
 
     public StoreHelper() {
+    }
+
+    public Store getStore() {
+        return store;
     }
 
     public StoreHelper(Store store) {

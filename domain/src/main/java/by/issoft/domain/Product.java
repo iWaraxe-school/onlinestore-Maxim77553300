@@ -16,6 +16,10 @@ public class Product {
         this.price = price;
     }
 
+    public Product getProduct(){
+        return this;
+    }
+
     public String getName() {
         return name;
     }
@@ -26,8 +30,8 @@ public class Product {
     }
 
 
-    public ProductPrice getPrice() {
-        return price;
+    public Double getPrice() {
+        return price.getPrice();
     }
 
     public void setRate(Double rate) {
@@ -45,9 +49,9 @@ public class Product {
     @Override
     public String toString() {
         return "Product " +
-                "name :'" + name + '\'' +
-                ", rate :" + rate +
-                "," + price;
+                "name:'" + name + '\'' +
+                ", rate:" + rate +
+                "," + price + "\n";
     }
 
 }

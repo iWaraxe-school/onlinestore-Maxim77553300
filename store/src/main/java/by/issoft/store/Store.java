@@ -11,9 +11,13 @@ import java.util.List;
 public class Store {
 
     public List<Category> categories = new ArrayList<>();
-    public List<Product> productList;
+    protected List<Product> productList = new ArrayList<>();
 
     public Store() {
+    }
+
+    public List<Product> getProductList() {
+        return productList;
     }
 
     public List<Product> getAllStoreGoods(Store store) {
@@ -34,9 +38,9 @@ public class Store {
             e.printStackTrace();
         }
 
-        for (Category category : categories) {
-            productList = category.getProducts();
-        }
+//        for (Category category : categories) {
+//            productList = category.getProducts();
+//        }
         return productList;
 
     }
