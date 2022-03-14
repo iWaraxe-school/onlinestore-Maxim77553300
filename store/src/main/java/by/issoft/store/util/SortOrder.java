@@ -1,5 +1,5 @@
 package by.issoft.store.util;
 
-public enum KindOfSort {
+public enum SortOrder {
     ASC,DESC
 }

@@ -7,20 +7,16 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.*;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.*;
 
 // Dom Parser
 public class XmlParser {
 
     private String pathXml;
-
-    private Properties prop;
-
-    protected static Map<String, String> configMap = new LinkedHashMap<>();
 
     public String getPathXml() {
         return pathXml;
@@ -28,7 +24,7 @@ public class XmlParser {
 
     {
         try {
-            prop = readPropertiesFile("store/src/main/resources/app.properties");
+            Properties prop = readPropertiesFile("store/src/main/resources/app.properties");
             pathXml = prop.getProperty("pathXml");
         } catch (IOException e) {
             e.printStackTrace();
@@ -44,11 +40,11 @@ public class XmlParser {
             e.printStackTrace();
         }
 
-        Node rootNode = doc.getFirstChild();
+        Optional<Node> optRootNode = Optional.ofNullable(doc.getFirstChild());
+            Node rootNode = optRootNode.get();
+            NodeList nodeList = rootNode.getChildNodes();
 
-        NodeList nodeList = rootNode.getChildNodes();
-
-        return fillMap(nodeList);
+        return getAllPropertiesMap(nodeList);
     }
 
     private Document buildDocument(String path) throws ParserConfigurationException, IOException, SAXException {
@@ -57,8 +53,9 @@ public class XmlParser {
         return documentBuilderFactory.newDocumentBuilder().parse(file);
     }
 
-    private static Map<String, String> fillMap(NodeList nodeList) {
+    private static Map<String, String> getAllPropertiesMap(NodeList nodeList) {
 
+        Map<String, String> configMap = new LinkedHashMap<>();
 
         for (int i = 0; i < nodeList.getLength(); i++) {
             if (nodeList.item(i).getNodeType() != Node.ELEMENT_NODE) {
@@ -67,7 +64,7 @@ public class XmlParser {
             if (nodeList.item(i).getNodeName().equals("sort")) {
                 continue;
             }
-            configMap.put(nodeList.item(i).getNodeName(), nodeList.item(i).getTextContent());
+            configMap.put(nodeList.item(i).getNodeName(), nodeList.item(i).getTextContent().toUpperCase(Locale.ROOT));
         }
         return configMap;
     }
@@ -82,12 +79,9 @@ public class XmlParser {
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         } finally {
-            fis.close();
+            if (fis != null) fis.close();
         }
-
         return prop;
     }
 }
