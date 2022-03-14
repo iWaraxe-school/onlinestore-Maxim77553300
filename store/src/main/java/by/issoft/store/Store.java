@@ -11,7 +11,7 @@ import java.util.List;
 public class Store {
 
     public List<Category> categories = new ArrayList<>();
-    public List<Product> productList = new ArrayList<>();
+    protected List<Product> productList = new ArrayList<>();
 
     public Store() {
     }

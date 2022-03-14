@@ -20,11 +20,9 @@ public class Output {
     public static void printAllGoods() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         Class<? extends Store> storeClass = Store.class;
         storeObject = storeClass.getConstructor().newInstance();
-
         products = storeObject.getAllStoreGoods(storeObject);
         for (Category category : storeObject.categories) {
-            System.out.println("Section " + category.getNameCategory());
-            if(category.getProducts() != null) {
+            if (category.getProducts() != null) {
                 for (Product product : category.getProducts()) {
                     System.out.print(product);
                 }
@@ -45,7 +43,7 @@ public class Output {
                 case "sort" -> printSortedGoods();
                 case "top" -> printTop();
                 case "quit" -> {
-                    return ;
+                    return;
                 }
             }
         }
@@ -53,32 +51,29 @@ public class Output {
 
     private static void printSortedGoods() {
         System.out.println("After sorting :");
-
-        if (count == 0) {
-            fillProducts();
-            count++;
-        }
+        fillProducts();
         Sorting sorting = new Sorting();
         List<Product> sort = sorting.sortAllProducts(products);
         System.out.println(sort);
     }
 
     private static void printTop() {
-        if (count == 0) {
-            fillProducts();
-        }
+        fillProducts();
         Sorting sorting = new Sorting();
         System.out.println(sorting.getTop());
     }
 
     private static void fillProducts() {
-        products = storeObject.getAllStoreGoods(storeObject);
-        for (Category category : storeObject.categories) {
-            if (category.getProducts() != null) {
-                products.addAll(category.getProducts());
-            } else {
-                continue;
+        if (count == 0) {
+            products = storeObject.getAllStoreGoods(storeObject);
+            for (Category category : storeObject.categories) {
+                if (category.getProducts() != null) {
+                    products.addAll(category.getProducts());
+                } else {
+                    continue;
+                }
             }
+            count++;
         }
     }
 }

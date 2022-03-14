@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class ProductComparator implements Comparator<Product> {
 
-    Map<String, String> sortBy;
+    private final Map<String, String> sortBy;
 
     public ProductComparator(Map<String,String> sortBy) {
         this.sortBy = sortBy;

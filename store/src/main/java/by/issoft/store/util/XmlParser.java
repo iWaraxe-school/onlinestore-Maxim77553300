@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
+import java.util.function.Supplier;
 
 // Dom Parser
 public class XmlParser {
@@ -31,18 +32,17 @@ public class XmlParser {
         }
     }
 
-
     public Map<String, String> parseXmlConfig(String pathXml) {
         Document doc = null;
+        NodeList nodeList = null;
         try {
             doc = buildDocument(pathXml);
+            Node rootNode = doc.getFirstChild();
+            nodeList = rootNode.getChildNodes();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("We don't have config data of sorting, please enter it!! Error! " + e.getMessage());
+            throw new RuntimeException();
         }
-
-        Optional<Node> optRootNode = Optional.ofNullable(doc.getFirstChild());
-            Node rootNode = optRootNode.get();
-            NodeList nodeList = rootNode.getChildNodes();
 
         return getAllPropertiesMap(nodeList);
     }

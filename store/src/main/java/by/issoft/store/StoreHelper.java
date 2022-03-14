@@ -11,7 +11,7 @@ import java.util.Set;
 
 public class StoreHelper {
 
-    Store store;
+    private Store store;
 
     public StoreHelper() {
     }
