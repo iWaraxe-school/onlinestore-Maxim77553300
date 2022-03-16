@@ -11,7 +11,7 @@ import java.util.Set;
 
 public class StoreHelper {
 
-    private Store store;
+    private Store store = Store.getInstance();
 
     public StoreHelper() {
     }
@@ -34,9 +34,12 @@ public class StoreHelper {
 
         for (Map.Entry<Category, Integer> entry : categoryProductsMapToAdd.entrySet()) {
             for (int i = 0; i < entry.getValue(); i++) {
-                Product product = new Product(randomStorePopulator.getName(entry.getKey())
-                        , randomStorePopulator.getRate(entry.getKey())
-                        , randomStorePopulator.getPrice(entry.getKey()));
+// pattern Builder-------
+                Product product = Product.newBuilder()
+                        .setName(randomStorePopulator.getName(entry.getKey()))
+                        .setPrice(randomStorePopulator.getPrice(entry.getKey()))
+                        .setRate(randomStorePopulator.getRate(entry.getKey()))
+                        .build();
                 entry.getKey().addProducts(product);
             }
             this.store.categories.add(entry.getKey());
