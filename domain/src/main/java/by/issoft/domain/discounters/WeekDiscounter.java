@@ -1,4 +1,6 @@
-package by.issoft.domain;
+package by.issoft.domain.discounters;
+
+import by.issoft.domain.discounters.Discounter;
 
 import java.util.Calendar;
 

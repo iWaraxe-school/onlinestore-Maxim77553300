@@ -11,7 +11,7 @@ import java.util.Set;
 
 public class StoreHelper {
 
-    private Store store;
+    private Store store = Store.getInstance();
 
     public StoreHelper() {
     }

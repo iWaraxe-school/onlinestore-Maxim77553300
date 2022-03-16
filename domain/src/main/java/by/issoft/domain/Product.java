@@ -1,6 +1,10 @@
 package by.issoft.domain;
 
 
+import by.issoft.domain.discounters.ChristmasDiscounter;
+import by.issoft.domain.discounters.Discounter;
+import by.issoft.domain.discounters.WeekDiscounter;
+
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package by.issoft.domain;
+package by.issoft.domain.discounters;
 
 // strategy pattern ---------------
 public interface Discounter {

@@ -1,8 +1,8 @@
-package by.issoft.domain;
+package by.issoft.domain.discounters;
 
 import java.util.Calendar;
 
-public class ChristmasDiscounter implements Discounter{
+public class ChristmasDiscounter implements Discounter {
 
     private final static Double VALUE_OF_DISCOUNT = 0.5;
 
