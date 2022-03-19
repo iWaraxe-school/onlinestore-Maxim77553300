@@ -101,9 +101,7 @@ public class Output {
                     service = getFirstProduct();
                     printPurchaseWithBag(service);
                 }
-                case "enter" -> {
-                    getProduct();
-                }
+                case "enter" -> getProduct();
                 case "quit" -> {
                     return;
                 }
@@ -152,7 +150,7 @@ public class Output {
     }
 
     @SneakyThrows
-    private static List<Product> getProduct() {
+    private static void getProduct() {
 
         log.info("start create order");
         String line = reader.readLine();
@@ -162,7 +160,7 @@ public class Output {
         IntStream.range(0, collect.size()).forEach(i -> System.out.println(collect.get(i)));
         new Thread(new Order(collect)).start();
         products.removeAll(collect);
-        return collect;
+
     }
 }
 

@@ -5,7 +5,6 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
@@ -30,13 +29,13 @@ public class Order implements Runnable {
         synchronized (productList) {
             log.info("start order thread, time of processing your order :" + randomTime);
             productList.wait(randomTime * 1000);
-            cleanOrder = new CleanOrder(orderHandler(orderProductList));
+            cleanOrder = new CleanOrder(orderHandler());
             (new Thread(cleanOrder)).start();
         }
     }
 
     @SneakyThrows
-    private synchronized List<Product> orderHandler(List<Product> productList) {
+    private synchronized List<Product> orderHandler() {
         orderProductList = this.productList;
         TimeUnit.SECONDS.sleep(3);
         System.out.println("Your order is completed :" + orderProductList.toString());
