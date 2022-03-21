@@ -3,7 +3,10 @@ package by.issoft.store.util;
 import by.issoft.domain.Category;
 import by.issoft.domain.Product;
 import by.issoft.domain.decorator.*;
+import by.issoft.store.Order;
 import by.issoft.store.Store;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,7 +14,10 @@ import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
+@Slf4j
 public class Output {
 
     private final static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -40,7 +46,7 @@ public class Output {
         printAllGoods();
 
         while (true) {
-            System.out.println("PLEASE, ENTER COMMAND:\nsort \ntop \nbuy(test) \nquit \n");
+            System.out.println("PLEASE, ENTER COMMAND:\nsort \ntop \nbuy \nquit \n");
             String line = reader.readLine();
             switch (line) {
                 case "sort" -> printSortedGoods();
@@ -82,19 +88,20 @@ public class Output {
     }
 
 
-// Test--- Methods for Pattern Decorator---------------------------
+    // Test--- Methods for Pattern Decorator---------------------------
     private static void printPurchase() throws IOException {
         Service service = null;
         fillProducts();
         while (true) {
-            System.out.println("PLEASE, ENTER COMMAND:\nfirst(to buy first product) \nquit \n");
+            System.out.println("You can buy theese goods : \n " + products.toString());
+            System.out.println("PLEASE, ENTER COMMAND:\nfirst - (to buy first product in the list) \nenter - (enter the name of product) \nquit \n");
             String line = reader.readLine();
             switch (line) {
                 case "first" -> {
                     service = getFirstProduct();
                     printPurchaseWithBag(service);
-                    break;
                 }
+                case "enter" -> getProduct();
                 case "quit" -> {
                     return;
                 }
@@ -105,6 +112,7 @@ public class Output {
     private static Service getFirstProduct() {
         fillProducts();
         Product product = products.get(0);
+        System.out.println("You have bought :" + product.getName());
         return new BuyFirstProduct(product.getName(), product.getPrice());
     }
 
@@ -139,6 +147,20 @@ public class Output {
                 }
             }
         }
+    }
+
+    @SneakyThrows
+    private static void getProduct() {
+
+        log.info("start create order");
+        String line = reader.readLine();
+        fillProducts();
+        List<Product> collect = products.stream().filter(a -> a.getName().equals(line)).collect(Collectors.toList());
+        System.out.println("You have bought :");
+        IntStream.range(0, collect.size()).forEach(i -> System.out.println(collect.get(i)));
+        new Thread(new Order(collect)).start();
+        products.removeAll(collect);
+
     }
 }
 
