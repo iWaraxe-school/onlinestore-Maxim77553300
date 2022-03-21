@@ -31,18 +31,23 @@ public class StoreHelper {
     public void fillStore() {
         Map<Category, Integer> categoryProductsMapToAdd = createRandomCategoryMap();
         RandomStorePopulator randomStorePopulator = new RandomStorePopulator();
-
         for (Map.Entry<Category, Integer> entry : categoryProductsMapToAdd.entrySet()) {
+
             for (int i = 0; i < entry.getValue(); i++) {
+
 // pattern Builder-------
                 Product product = Product.newBuilder()
                         .setName(randomStorePopulator.getName(entry.getKey()))
                         .setPrice(randomStorePopulator.getPrice(entry.getKey()))
                         .setRate(randomStorePopulator.getRate(entry.getKey()))
+                        .setCategory_id(randomStorePopulator.getCategoryId(entry.getKey()))
                         .build();
                 entry.getKey().addProducts(product);
+
             }
+
             this.store.categories.add(entry.getKey());
+
         }
     }
 
@@ -62,5 +67,6 @@ public class StoreHelper {
         }
         return categoryMap;
     }
+
 
 }

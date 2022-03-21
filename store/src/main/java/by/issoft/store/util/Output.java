@@ -5,6 +5,10 @@ import by.issoft.domain.Product;
 import by.issoft.domain.decorator.*;
 import by.issoft.store.Order;
 import by.issoft.store.Store;
+import by.issoft.store.dao.CategoryDao;
+import by.issoft.store.dao.ProductDao;
+import by.issoft.store.service.CategoryService;
+import by.issoft.store.service.ProductService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -25,23 +30,36 @@ public class Output {
     protected static Store storeObject = Store.getInstance();
     private static int count = 0;
 
-    public static void printAllGoods() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public static void printAllGoods() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, SQLException {
+
+
         Class<? extends Store> storeClass = Store.class;
         Method method = storeClass.getMethod("getInstance");
         Store storeObject = (Store) method.invoke(storeClass);
         products = storeObject.getAllStoreGoods(storeObject);
+
+        ProductDao productService = new ProductService();
+
+        CategoryDao categoryDao = new CategoryService();
+        categoryDao.addListCategory(storeObject.categories);
+
+
         for (Category category : storeObject.categories) {
             if (category.getProducts() != null) {
                 for (Product product : category.getProducts()) {
                     System.out.print(product);
+
+                    productService.addListProduct(category.getProducts());
+
                 }
             } else {
                 continue;
             }
         }
+
     }
 
-    public static void printCommand() throws IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public static void printCommand() throws IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, SQLException {
 
         printAllGoods();
 
@@ -57,9 +75,10 @@ public class Output {
                 }
             }
         }
+
     }
 
-    private static void printSortedGoods() {
+    private static void printSortedGoods() throws SQLException {
         System.out.println("After sorting :");
         fillProducts();
         Sorting sorting = new Sorting();
@@ -67,13 +86,13 @@ public class Output {
         System.out.println(sort);
     }
 
-    private static void printTop() {
+    private static void printTop() throws SQLException {
         fillProducts();
         Sorting sorting = new Sorting();
         System.out.println(sorting.getTop());
     }
 
-    private static void fillProducts() {
+    private static void fillProducts() throws SQLException {
         if (count == 0) {
             products = storeObject.getAllStoreGoods(storeObject);
             for (Category category : storeObject.categories) {
@@ -89,7 +108,7 @@ public class Output {
 
 
     // Test--- Methods for Pattern Decorator---------------------------
-    private static void printPurchase() throws IOException {
+    private static void printPurchase() throws IOException, SQLException {
         Service service = null;
         fillProducts();
         while (true) {
@@ -109,7 +128,7 @@ public class Output {
         }
     }
 
-    private static Service getFirstProduct() {
+    private static Service getFirstProduct() throws SQLException {
         fillProducts();
         Product product = products.get(0);
         System.out.println("You have bought :" + product.getName());
@@ -128,7 +147,7 @@ public class Output {
         System.out.println(buyBag.getName() + " " + buyBag.getPrice());
     }
 
-    private static void printPurchaseWithBag(Service service) throws IOException {
+    private static void printPurchaseWithBag(Service service) throws IOException, SQLException {
         fillProducts();
         while (true) {
             System.out.println("PLEASE, CHOOSE TH BAG: \nsmall(to buy small bag) \nbig(to buy big bag) \nquit \n");

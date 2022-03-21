@@ -3,8 +3,13 @@ package by.issoft.store;
 
 import by.issoft.domain.Category;
 import by.issoft.domain.Product;
+import by.issoft.store.dao.CategoryDao;
+import by.issoft.store.dao.ProductDao;
+import by.issoft.store.service.CategoryService;
+import by.issoft.store.service.ProductService;
 
 import java.lang.reflect.Method;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,16 +22,15 @@ public class Store {
 
 
     // pattern Singleton-------------------------
-    private Store(){
+    private Store() {
     }
 
-    public static Store getInstance(){
-        if(instance == null){
+    public static Store getInstance() {
+        if (instance == null) {
             instance = new Store();
         }
         return instance;
     }
-
 
 
     public List<Product> getProductList() {
@@ -45,13 +49,21 @@ public class Store {
             createRandomCategoryMap.invoke(storeHelper);
             storeHelper.fillStore();
 
-
         } catch (ReflectiveOperationException e) {
 
             e.printStackTrace();
         }
 
+       // fillDataBase();
         return productList;
 
     }
+
+//    public void fillDataBase() throws SQLException {
+//        ProductDao productService = new ProductService();
+//
+//        CategoryDao categoryDao = new CategoryService();
+//        categoryDao.addListCategory(categories);
+//        productService.addListProduct(productList);
+//    }
 }

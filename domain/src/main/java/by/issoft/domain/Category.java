@@ -8,15 +8,31 @@ import java.util.Objects;
 
 public class Category {
 
-    private final String nameCategory;
+    private Integer id;
+    private String nameCategory;
     private List<Product> products;
     private final Faker faker = new Faker();
     private ProductPrice price;
     private Double min;
     private Double max;
 
+    public Category() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getNameCategory() {
         return nameCategory;
+    }
+
+    public void setNameCategory(String nameCategory) {
+        this.nameCategory = nameCategory;
     }
 
     public Faker getFaker() {
@@ -35,6 +51,8 @@ public class Category {
     public List<Product> getProducts() {
         return products;
     }
+
+
 
     public void setProducts(List<Product> products) {
         this.products = products;

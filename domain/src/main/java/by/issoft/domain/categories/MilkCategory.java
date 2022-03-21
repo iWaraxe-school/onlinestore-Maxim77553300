@@ -17,4 +17,9 @@ public class MilkCategory extends Category {
     public ProductPrice generatePrice(Category category,Double min,Double max) {
         return super.generatePrice(category,1.00,10.00);
     }
+
+    @Override
+    public Integer getId() {
+        return 2;
+    }
 }

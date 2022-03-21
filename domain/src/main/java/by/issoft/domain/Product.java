@@ -10,9 +10,11 @@ import java.util.List;
 
 public class Product {
 
+    private Integer id;
     private String name;
     private Double rate;
     private ProductPrice price;
+    private Integer category_id;
     // Discounter----Strategy pattern --------
     Discounter discounterWeek = new WeekDiscounter();
     Discounter discountChristmas = new ChristmasDiscounter();
@@ -23,9 +25,11 @@ public class Product {
     // use Pattern Builder for creating Product
     public class Builder {
 
+        private Integer id;
         private String name;
         private Double rate;
         private ProductPrice price;
+        private Integer category_id;
 
         private Builder() {
         }
@@ -45,11 +49,23 @@ public class Product {
             return this;
         }
 
+        public Builder setId(Integer id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setCategory_id(Integer category_id) {
+            this.category_id = category_id;
+            return this;
+        }
+
         public Product build() {
+            Product.this.id = id;
             Product.this.name = this.name;
             // Product.this.price = this.price;
             Product.this.price = discountPrice(this.price);
             Product.this.rate = this.rate;
+            Product.this.category_id = this.category_id;
             return Product.this;
         }
 
@@ -83,6 +99,14 @@ public class Product {
 
     public Double getPrice() {
         return price.getPrice();
+    }
+
+    public Integer getCategory_id() {
+        return category_id;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     @Override
