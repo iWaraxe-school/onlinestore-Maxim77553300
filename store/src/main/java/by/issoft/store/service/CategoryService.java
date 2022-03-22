@@ -1,13 +1,13 @@
 package by.issoft.store.service;
 
 import by.issoft.domain.Category;
+import by.issoft.domain.categories.BikeCategory;
+import by.issoft.domain.categories.MilkCategory;
+import by.issoft.domain.categories.PhoneCategory;
 import by.issoft.store.dao.CategoryDao;
 import by.issoft.store.util.ConnectionUtil;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,129 +18,87 @@ public class CategoryService extends ConnectionUtil implements CategoryDao {
     @Override
     public void add(Category category) throws SQLException {
 
-        PreparedStatement preparedStatement = null;
         String sql = "INSERT INTO category (id,categoryName) VALUES (?,?)";
 
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
-        try {
-            preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, category.getId());
             preparedStatement.setString(2, category.getNameCategory());
             preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (preparedStatement != null) {
-                preparedStatement.close();
-            }
-            if (connection != null) {
-                connection.close();
-            }
         }
     }
 
     @Override
     public List<Category> getAll() throws SQLException {
+
         List<Category> categoryList = new ArrayList<>();
-        PreparedStatement preparedStatement = null;
         String sql = "SELECT * FROM category";
 
-        try {
-            preparedStatement = connection.prepareStatement(sql);
-            ResultSet resultSet = preparedStatement.executeQuery();
+        try (Statement statement = connection.createStatement()) {
+
+            ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
-                Category category = new Category();
+                Category category;
+                if (resultSet.getString("categoryName").equals("Bike")) {
+                    category = new BikeCategory();
+                } else if (resultSet.getString("categoryName").equals("Phone")) {
+                    category = new PhoneCategory();
+                } else {
+                    category = new MilkCategory();
+                }
+
                 category.setNameCategory(resultSet.getString("categoryName"));
                 categoryList.add(category);
             }
-            preparedStatement.executeUpdate();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (preparedStatement != null) {
-                preparedStatement.close();
-            }
-            if (connection != null) {
-                connection.close();
-            }
+
         }
         return categoryList;
     }
 
     @Override
     public Category getById(Integer id) throws SQLException {
-        PreparedStatement preparedStatement = null;
+
         String sql = "SELECT * FROM category WHERE id = ?";
         Category category = new Category();
-        try {
-            preparedStatement = connection.prepareStatement(sql);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             category.setNameCategory(resultSet.getString("categoryName"));
             preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (preparedStatement != null) {
-                preparedStatement.close();
-            }
-            if (connection != null) {
-                connection.close();
-            }
         }
         return category;
     }
 
     @Override
-    public void delete(Category category) throws SQLException {
+    public void delete(Category category) {
 
-        PreparedStatement preparedStatement = null;
         String sql = "DELETE * FROM category WHERE id = ?";
 
-        try {
-            preparedStatement = connection.prepareStatement(sql);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
             preparedStatement.setInt(1, category.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (preparedStatement != null) {
-                preparedStatement.close();
-            }
-            if (connection != null) {
-                connection.close();
-            }
         }
     }
 
     @Override
     public void addListCategory(List<Category> categoryList) throws SQLException {
+
         createTables();
-        PreparedStatement preparedStatement = null;
         String sql = "INSERT INTO category (id,categoryName) VALUES(?,?)";
 
         for (Category category : categoryList) {
-            try {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
-                preparedStatement = connection.prepareStatement(sql);
                 preparedStatement.setInt(1, category.getId());
                 preparedStatement.setString(2, category.getNameCategory());
                 preparedStatement.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
+
         }
-
-//        finally {
-//            if (preparedStatement != null) {
-//                preparedStatement.close();
-//            }
-//            if (connection != null) {
-//                connection.close();
-//            }
-//        }
-
-
     }
 }

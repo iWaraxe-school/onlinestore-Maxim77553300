@@ -15,38 +15,29 @@ public class ProductService extends ConnectionUtil implements ProductDao {
 
     @Override
     public void add(Product product) throws SQLException {
-        PreparedStatement preparedStatement = null;
+
         String sql = "INSERT INTO products (name,price,rate,category_id) VALUES (?,?,?,?)";
 
-        try {
-            preparedStatement = connection.prepareStatement(sql);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
             preparedStatement.setString(1, product.getName());
             preparedStatement.setDouble(2, product.getPrice());
             preparedStatement.setDouble(3, product.getRate());
-            preparedStatement.setInt(4,product.getCategory_id());
+            preparedStatement.setInt(4, product.getCategory_id());
             preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (preparedStatement != null) {
-                preparedStatement.close();
-            }
-            if (connection != null) {
-                connection.close();
-            }
         }
     }
 
     @Override
     public List<Product> getAll() throws SQLException {
+
         List<Product> productList = new ArrayList<>();
 
-        PreparedStatement preparedStatement = null;
         String sql = "SELECT * FROM products";
 
-        try {
-            preparedStatement = connection.prepareStatement(sql);
-            ResultSet resultSet = preparedStatement.executeQuery();
+        try (Statement statement = connection.createStatement()) {
+
+            ResultSet resultSet = statement.executeQuery(sql);
 
             while (resultSet.next()) {
 
@@ -59,18 +50,8 @@ public class ProductService extends ConnectionUtil implements ProductDao {
                         .build();
 
                 productList.add(product);
-                preparedStatement.executeUpdate();
             }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (preparedStatement != null) {
-                preparedStatement.close();
-            }
-            if (connection != null) {
-                connection.close();
-            }
         }
         return productList;
     }
@@ -78,11 +59,10 @@ public class ProductService extends ConnectionUtil implements ProductDao {
     @Override
     public Product getById(Integer id) throws SQLException {
 
-        PreparedStatement preparedStatement = null;
         String sql = "SELECT * FROM products WHERE id =?";
-        Product product = new Product();
-        try {
-            preparedStatement = connection.prepareStatement(sql);
+        Product product;
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             product = Product.newBuilder()
@@ -94,15 +74,6 @@ public class ProductService extends ConnectionUtil implements ProductDao {
                     .build();
 
             preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (preparedStatement != null) {
-                preparedStatement.close();
-            }
-            if (connection != null) {
-                connection.close();
-            }
         }
         return product;
     }
@@ -110,49 +81,30 @@ public class ProductService extends ConnectionUtil implements ProductDao {
     @Override
     public void delete(Product product) throws SQLException {
 
-        PreparedStatement preparedStatement = null;
         String sql = "DELETE FROM products WHERE id = ?";
 
-        try {
-            preparedStatement = connection.prepareStatement(sql);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
             preparedStatement.setInt(1, product.getId());
             preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (preparedStatement != null) {
-                preparedStatement.close();
-            }
-            if (connection != null) {
-                connection.close();
-            }
         }
+
     }
 
     @Override
     public void addListProduct(List<Product> productList) throws SQLException {
-        PreparedStatement preparedStatement = null;
+
         String sql = "INSERT INTO products (name,price,rate,category_id) VALUES (?,?,?,?)";
 
-        for(Product product : productList) {
-            try {
-                preparedStatement = connection.prepareStatement(sql);
+        for (Product product : productList) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
                 preparedStatement.setString(1, product.getName());
                 preparedStatement.setDouble(2, product.getPrice());
                 preparedStatement.setDouble(3, product.getRate());
                 preparedStatement.setInt(4, product.getCategory_id());
                 preparedStatement.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
-//            finally {
-//                if (preparedStatement != null) {
-//                    preparedStatement.close();
-//                }
-//                if (connection != null) {
-//                    connection.close();
-//                }
-//            }
         }
     }
 }

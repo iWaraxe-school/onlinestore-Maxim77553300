@@ -18,12 +18,13 @@ public class ConnectionUtil {
             connection = DriverManager.getConnection(URL, NAME, PASSWORD);
             System.out.println("Connection exist");
         } catch (ClassNotFoundException | SQLException e) {
-          e.printStackTrace();
+            e.printStackTrace();
         }
         return connection;
     }
 
     public void createTables() throws SQLException {
+
         Connection connection = getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("CREATE TABLE IF NOT EXISTS category (id INT NOT NULL , categoryName VARCHAR(30) NOT NULL, PRIMARY KEY (id)) ;");
         preparedStatement.executeUpdate();
@@ -42,15 +43,7 @@ public class ConnectionUtil {
                 "    ON UPDATE NO ACTION);");
 
         preparedStatement2.executeUpdate();
-        if(preparedStatement != null){
-            preparedStatement.close();
-        }
-        if(preparedStatement2 != null){
-            preparedStatement2.close();
-        }
-        if(connection != null){
-            connection.close();
-        }
+
     }
 
 }

@@ -3,12 +3,7 @@ package by.issoft.store;
 
 import by.issoft.domain.Category;
 import by.issoft.domain.Product;
-import by.issoft.store.dao.CategoryDao;
-import by.issoft.store.dao.ProductDao;
-import by.issoft.store.service.CategoryService;
-import by.issoft.store.service.ProductService;
 
-import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,33 +32,13 @@ public class Store {
         return productList;
     }
 
-    public List<Product> getAllStoreGoods(Store store) {
+    public List<Product> getAllStoreGoods() throws SQLException {
 
-        Class<StoreHelper> storeHelperClass = StoreHelper.class;
+        StoreHelper storeHelper = new StoreHelper();
+        storeHelper.fillStore();
 
-        try {
-            StoreHelper storeHelper = storeHelperClass.getConstructor().newInstance();
-            storeHelper.setStore(store);
-            Method createRandomCategoryMap = storeHelperClass.getMethod("createRandomCategoryMap");
-            createRandomCategoryMap.setAccessible(true);
-            createRandomCategoryMap.invoke(storeHelper);
-            storeHelper.fillStore();
-
-        } catch (ReflectiveOperationException e) {
-
-            e.printStackTrace();
-        }
-
-       // fillDataBase();
-        return productList;
+        return getProductList();
 
     }
 
-//    public void fillDataBase() throws SQLException {
-//        ProductDao productService = new ProductService();
-//
-//        CategoryDao categoryDao = new CategoryService();
-//        categoryDao.addListCategory(categories);
-//        productService.addListProduct(productList);
-//    }
 }

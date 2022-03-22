@@ -16,10 +16,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Slf4j
@@ -29,37 +28,26 @@ public class Output {
     private static List<Product> products;
     protected static Store storeObject = Store.getInstance();
     private static int count = 0;
+    private static ProductDao productDao = new ProductService();
 
-    public static void printAllGoods() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, SQLException {
-
-
-        Class<? extends Store> storeClass = Store.class;
-        Method method = storeClass.getMethod("getInstance");
-        Store storeObject = (Store) method.invoke(storeClass);
-        products = storeObject.getAllStoreGoods(storeObject);
-
+    public static void printAllGoods() throws SQLException {
+        products = storeObject.getAllStoreGoods();
         ProductDao productService = new ProductService();
-
         CategoryDao categoryDao = new CategoryService();
         categoryDao.addListCategory(storeObject.categories);
 
 
         for (Category category : storeObject.categories) {
             if (category.getProducts() != null) {
-                for (Product product : category.getProducts()) {
-                    System.out.print(product);
-
-                    productService.addListProduct(category.getProducts());
-
-                }
-            } else {
-                continue;
+                productService.addListProduct(category.getProducts());
             }
         }
+        System.out.println(productService.getAll());
+
 
     }
 
-    public static void printCommand() throws IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, SQLException {
+    public static void printCommand() throws IOException, SQLException {
 
         printAllGoods();
 
@@ -75,7 +63,6 @@ public class Output {
                 }
             }
         }
-
     }
 
     private static void printSortedGoods() throws SQLException {
@@ -93,17 +80,8 @@ public class Output {
     }
 
     private static void fillProducts() throws SQLException {
-        if (count == 0) {
-            products = storeObject.getAllStoreGoods(storeObject);
-            for (Category category : storeObject.categories) {
-                if (category.getProducts() != null) {
-                    products.addAll(category.getProducts());
-                } else {
-                    continue;
-                }
-            }
-            count++;
-        }
+        ProductDao productService = new ProductService();
+        products = productService.getAll();
     }
 
 
@@ -112,7 +90,7 @@ public class Output {
         Service service = null;
         fillProducts();
         while (true) {
-            System.out.println("You can buy theese goods : \n " + products.toString());
+            System.out.println("You can buy these goods : \n " + products.toString());
             System.out.println("PLEASE, ENTER COMMAND:\nfirst - (to buy first product in the list) \nenter - (enter the name of product) \nquit \n");
             String line = reader.readLine();
             switch (line) {
@@ -132,6 +110,9 @@ public class Output {
         fillProducts();
         Product product = products.get(0);
         System.out.println("You have bought :" + product.getName());
+        products.remove(product);
+
+        productDao.delete(product);
         return new BuyFirstProduct(product.getName(), product.getPrice());
     }
 
@@ -172,13 +153,17 @@ public class Output {
     private static void getProduct() {
 
         log.info("start create order");
+        System.out.println(productDao.getAll());
         String line = reader.readLine();
-        fillProducts();
-        List<Product> collect = products.stream().filter(a -> a.getName().equals(line)).collect(Collectors.toList());
+        Product product = productDao.getAll().stream().filter(a -> a.getName().equals(line)).findAny().orElseThrow();
+        List<Product> collect = new ArrayList<>();
+        collect.add(product);
         System.out.println("You have bought :");
         IntStream.range(0, collect.size()).forEach(i -> System.out.println(collect.get(i)));
         new Thread(new Order(collect)).start();
         products.removeAll(collect);
+        productDao.delete(product);
+        products = productDao.getAll();
 
     }
 }

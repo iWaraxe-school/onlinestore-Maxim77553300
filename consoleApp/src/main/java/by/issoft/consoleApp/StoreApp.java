@@ -9,11 +9,9 @@ import java.sql.SQLException;
 
 public class StoreApp {
 
-    public static void main(String[] args) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, IOException, SQLException {
+    public static void main(String[] args) throws IOException, SQLException {
 
         Output.printCommand();
-
-
     }
 
 }

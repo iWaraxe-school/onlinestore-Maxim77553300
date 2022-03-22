@@ -2,16 +2,17 @@ package by.issoft.store;
 
 import by.issoft.domain.Category;
 import by.issoft.domain.Product;
+import by.issoft.store.dao.CategoryDao;
+import by.issoft.store.service.CategoryService;
 import org.reflections.Reflections;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
+import java.sql.SQLException;
+import java.util.*;
 
 public class StoreHelper {
 
     private Store store = Store.getInstance();
+    private static int count = 0;
 
     public StoreHelper() {
     }
@@ -28,8 +29,13 @@ public class StoreHelper {
         this.store = store;
     }
 
-    public void fillStore() {
-        Map<Category, Integer> categoryProductsMapToAdd = createRandomCategoryMap();
+    public void fillStore() throws SQLException {
+        Map<Category, Integer> categoryProductsMapToAdd;
+        if (count == 0) {
+            categoryProductsMapToAdd = createRandomCategoryMap();
+        } else {
+            categoryProductsMapToAdd = createCategoryMap();
+        }
         RandomStorePopulator randomStorePopulator = new RandomStorePopulator();
         for (Map.Entry<Category, Integer> entry : categoryProductsMapToAdd.entrySet()) {
 
@@ -43,12 +49,13 @@ public class StoreHelper {
                         .setCategory_id(randomStorePopulator.getCategoryId(entry.getKey()))
                         .build();
                 entry.getKey().addProducts(product);
+                store.productList.add(product);
 
             }
 
             this.store.categories.add(entry.getKey());
-
         }
+        count++;
     }
 
     public static Map<Category, Integer> createRandomCategoryMap() {
@@ -64,6 +71,20 @@ public class StoreHelper {
             } catch (ReflectiveOperationException e) {
                 e.printStackTrace();
             }
+        }
+        return categoryMap;
+    }
+
+    public Map<Category, Integer> createCategoryMap() throws SQLException {
+        CategoryDao categoryDao = new CategoryService();
+        List<Category> categoriesList;
+        categoriesList = categoryDao.getAll();
+        Map<Category, Integer> categoryMap = new HashMap<>();
+
+        Random random = new Random();
+        for (Category category : categoriesList) {
+            int i = random.nextInt(10);
+            categoryMap.put(category, i);
         }
         return categoryMap;
     }
