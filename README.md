@@ -1,16 +1,25 @@
-# 5. Patterns
+# 7. DB
 
+----
 ## Materials
 
-[Patterns](https://refactoring.guru/design-patterns)
+[H2 Database](https://www.h2database.com/html/main.html)
 
-## Task #5
+[Very brief description](https://www.javatpoint.com/steps-to-connect-to-the-database-in-java)
 
-Read all materials, try to find a `proper` place to your newly learned patterns in our app.
+[One more](https://www.baeldung.com/java-jdbc)
 
-%% Singleton
-%% ChainOfResponsibility
-%% Fabric
+## Task
 
-## Hints
-Rethink your application from SOLID point of view. Keep in mind that in addition to implementing multithreading, we will also work with the database and http. In many ways, we will repeat what we did for the console application for both the database and the http layers. It might be worth coming up with some common interfaces that different versions will implement.
+Please replace `Reflection` and in memory products storage with database.
+
+You should store categories and products for each category in databe tables.
+
+Requirements:
+
+1. use `JDBC`
+
+2. you can select any DB, but for simplicity you can select H2 database in files mode
+
+3. feel free to google)
+
