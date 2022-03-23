@@ -22,4 +22,4 @@ Requirements:
 2. you can select any DB, but for simplicity you can select H2 database in files mode
 
 3. feel free to google)
- 
+
