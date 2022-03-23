@@ -17,6 +17,10 @@ public class RandomStorePopulator {
         return category.getPrice(category);
     }
 
+    public Integer getCategoryId(Category category){
+        return category.getId();
+    }
+
     public void setPrice(ProductPrice price) {
     }
 

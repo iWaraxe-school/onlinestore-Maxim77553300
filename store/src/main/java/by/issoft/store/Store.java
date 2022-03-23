@@ -4,7 +4,7 @@ package by.issoft.store;
 import by.issoft.domain.Category;
 import by.issoft.domain.Product;
 
-import java.lang.reflect.Method;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,41 +17,28 @@ public class Store {
 
 
     // pattern Singleton-------------------------
-    private Store(){
+    private Store() {
     }
 
-    public static Store getInstance(){
-        if(instance == null){
+    public static Store getInstance() {
+        if (instance == null) {
             instance = new Store();
         }
         return instance;
     }
 
 
-
     public List<Product> getProductList() {
         return productList;
     }
 
-    public List<Product> getAllStoreGoods(Store store) {
+    public List<Product> getAllStoreGoods() throws SQLException {
 
-        Class<StoreHelper> storeHelperClass = StoreHelper.class;
+        StoreHelper storeHelper = new StoreHelper();
+        storeHelper.fillStore();
 
-        try {
-            StoreHelper storeHelper = storeHelperClass.getConstructor().newInstance();
-            storeHelper.setStore(store);
-            Method createRandomCategoryMap = storeHelperClass.getMethod("createRandomCategoryMap");
-            createRandomCategoryMap.setAccessible(true);
-            createRandomCategoryMap.invoke(storeHelper);
-            storeHelper.fillStore();
-
-
-        } catch (ReflectiveOperationException e) {
-
-            e.printStackTrace();
-        }
-
-        return productList;
+        return getProductList();
 
     }
+
 }
