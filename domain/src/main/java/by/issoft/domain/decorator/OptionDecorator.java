@@ -1,6 +1,7 @@
 package by.issoft.domain.decorator;
+
 // test Pattern Decorator ---------------------------------
-public class OptionDecorator implements Service{
+public class OptionDecorator implements Service {
 
     private final Service service;
     private final String name;

@@ -1,6 +1,6 @@
 package by.issoft.domain.decorator;
 
-public class BuyFirstProduct implements Service{
+public class BuyFirstProduct implements Service {
 
     private final String name;
     private final Double price;

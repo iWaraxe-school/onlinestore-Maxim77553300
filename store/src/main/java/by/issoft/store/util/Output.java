@@ -1,21 +1,17 @@
 package by.issoft.store.util;
 
-import by.issoft.domain.Category;
 import by.issoft.domain.Product;
 import by.issoft.domain.decorator.*;
-import by.issoft.store.Order;
 import by.issoft.store.Store;
-import by.issoft.store.dao.CategoryDao;
 import by.issoft.store.dao.ProductDao;
-import by.issoft.store.service.CategoryService;
-import by.issoft.store.service.ProductService;
+import by.issoft.store.populator.PopulatorBd;
+import by.issoft.store.service.ProductServiceImpl;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,24 +23,11 @@ public class Output {
     private final static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     private static List<Product> products;
     protected static Store storeObject = Store.getInstance();
-    private static int count = 0;
-    private static ProductDao productDao = new ProductService();
+    private final static ProductDao productDao = new ProductServiceImpl();
+    private final static PopulatorBd populator = new PopulatorBd();
 
     public static void printAllGoods() throws SQLException {
-        products = storeObject.getAllStoreGoods();
-        ProductDao productService = new ProductService();
-        CategoryDao categoryDao = new CategoryService();
-        categoryDao.addListCategory(storeObject.categories);
-
-
-        for (Category category : storeObject.categories) {
-            if (category.getProducts() != null) {
-                productService.addListProduct(category.getProducts());
-            }
-        }
-        System.out.println(productService.getAll());
-
-
+        populator.printAllGoods();
     }
 
     public static void printCommand() throws IOException, SQLException {
@@ -80,10 +63,9 @@ public class Output {
     }
 
     private static void fillProducts() throws SQLException {
-        ProductDao productService = new ProductService();
+        ProductDao productService = new ProductServiceImpl();
         products = productService.getAll();
     }
-
 
     // Test--- Methods for Pattern Decorator---------------------------
     private static void printPurchase() throws IOException, SQLException {
@@ -98,7 +80,7 @@ public class Output {
                     service = getFirstProduct();
                     printPurchaseWithBag(service);
                 }
-                case "enter" -> getProduct();
+                case "enter" -> getProductToCart();
                 case "quit" -> {
                     return;
                 }
@@ -150,21 +132,18 @@ public class Output {
     }
 
     @SneakyThrows
-    private static void getProduct() {
-
+    private static void getProductToCart() {
         log.info("start create order");
         System.out.println(productDao.getAll());
         String line = reader.readLine();
         Product product = productDao.getAll().stream().filter(a -> a.getName().equals(line)).findAny().orElseThrow();
         List<Product> collect = new ArrayList<>();
-        collect.add(product);
+        populator.addToCart(product);
         System.out.println("You have bought :");
         IntStream.range(0, collect.size()).forEach(i -> System.out.println(collect.get(i)));
-        new Thread(new Order(collect)).start();
         products.removeAll(collect);
         productDao.delete(product);
         products = productDao.getAll();
-
     }
 }
 

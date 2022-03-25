@@ -3,7 +3,8 @@ package by.issoft.store;
 import by.issoft.domain.Category;
 import by.issoft.domain.Product;
 import by.issoft.store.dao.CategoryDao;
-import by.issoft.store.service.CategoryService;
+import by.issoft.store.populator.RandomStorePopulator;
+import by.issoft.store.service.CategoryServiceImpl;
 import org.reflections.Reflections;
 
 import java.sql.SQLException;
@@ -40,7 +41,6 @@ public class StoreHelper {
         for (Map.Entry<Category, Integer> entry : categoryProductsMapToAdd.entrySet()) {
 
             for (int i = 0; i < entry.getValue(); i++) {
-
 // pattern Builder-------
                 Product product = Product.newBuilder()
                         .setName(randomStorePopulator.getName(entry.getKey()))
@@ -50,9 +50,7 @@ public class StoreHelper {
                         .build();
                 entry.getKey().addProducts(product);
                 store.productList.add(product);
-
             }
-
             this.store.categories.add(entry.getKey());
         }
         count++;
@@ -60,10 +58,8 @@ public class StoreHelper {
 
     public static Map<Category, Integer> createRandomCategoryMap() {
         Map<Category, Integer> categoryMap = new HashMap<>();
-
         Reflections reflections = new Reflections("by.issoft.domain.categories");
         Set<Class<? extends Category>> subTypesOf = reflections.getSubTypesOf(Category.class);
-
         for (Class<? extends Category> type : subTypesOf) {
             Random random = new Random();
             try {
@@ -76,11 +72,10 @@ public class StoreHelper {
     }
 
     public Map<Category, Integer> createCategoryMap() throws SQLException {
-        CategoryDao categoryDao = new CategoryService();
+        CategoryDao categoryDao = new CategoryServiceImpl();
         List<Category> categoriesList;
         categoriesList = categoryDao.getAll();
         Map<Category, Integer> categoryMap = new HashMap<>();
-
         Random random = new Random();
         for (Category category : categoriesList) {
             int i = random.nextInt(10);

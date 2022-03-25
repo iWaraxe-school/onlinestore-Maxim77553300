@@ -40,7 +40,7 @@ public class Category {
     }
 
     public ProductPrice getPrice(Category category) {
-        generatePrice(category,min,max);
+        generatePrice(category, min, max);
         return price;
     }
 
@@ -51,7 +51,6 @@ public class Category {
     public List<Product> getProducts() {
         return products;
     }
-
 
 
     public void setProducts(List<Product> products) {

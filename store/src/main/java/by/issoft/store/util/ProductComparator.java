@@ -11,7 +11,7 @@ public class ProductComparator implements Comparator<Product> {
 
     private final Map<String, String> sortBy;
 
-    public ProductComparator(Map<String,String> sortBy) {
+    public ProductComparator(Map<String, String> sortBy) {
         this.sortBy = sortBy;
     }
 
