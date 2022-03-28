@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class ConnectionUtil {
+public class ConnectionJdbc {
 
     private static final String URL = "jdbc:mysql://localhost:3306/test1?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC";
     private static final String NAME = "root";

@@ -14,14 +14,13 @@ public class BikeCategory extends Category {
     }
 
     @Override
-    public ProductPrice generatePrice(Category category,Double min,Double max) {
-        return super.generatePrice(category,100.00,1000.00);
+    public ProductPrice generatePrice(Category category, Double min, Double max) {
+        return super.generatePrice(category, 100.00, 1000.00);
     }
 
     @Override
     public Integer getId() {
         return 1;
     }
-
 
 }

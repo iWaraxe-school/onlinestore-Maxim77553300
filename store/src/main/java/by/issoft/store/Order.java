@@ -24,7 +24,7 @@ public class Order implements Runnable {
     @SneakyThrows
     @Override
     public void run() {
-       // Integer randomTime = new Random().ints(1, 1, 31).boxed().findAny().get();
+        // Integer randomTime = new Random().ints(1, 1, 31).boxed().findAny().get();
         int randomTime = ThreadLocalRandom.current().nextInt(1, 31);
         synchronized (productList) {
             log.info("start order thread, time of processing your order :" + randomTime);

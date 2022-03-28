@@ -22,6 +22,7 @@ public class Product {
     public static Builder newBuilder() {
         return new Product().new Builder();
     }
+
     // use Pattern Builder for creating Product
     public class Builder {
 
@@ -73,7 +74,7 @@ public class Product {
             List<Discounter> discounterList = new ArrayList<>();
             discounterList.add(discounterWeek);
             discounterList.add(discountChristmas);
-            for(Discounter discounter : discounterList) {
+            for (Discounter discounter : discounterList) {
                 if (discounterWeek.checkCondition()) {
                     Double price1 = price.getPrice();
                     this.price = ProductPrice.of(discounterWeek.applyDiscount(price1));
@@ -122,5 +123,4 @@ public class Product {
                 ", rate:" + rate +
                 "," + message + price + "\n";
     }
-
 }

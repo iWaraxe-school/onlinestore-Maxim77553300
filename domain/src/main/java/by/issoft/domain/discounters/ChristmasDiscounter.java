@@ -8,17 +8,17 @@ public class ChristmasDiscounter implements Discounter {
 
     @Override
     public Double applyDiscount(Double price) {
-        return Math.round(price * VALUE_OF_DISCOUNT*100.00)/100.00;
+        return Math.round(price * VALUE_OF_DISCOUNT * 100.00) / 100.00;
     }
 
     @Override
     public boolean checkCondition() {
         Calendar calendar = Calendar.getInstance();
         long currentDate = calendar.getTimeInMillis();
-        calendar.set(Calendar.MONTH,11);
-        calendar.set(Calendar.DAY_OF_MONTH,30);
+        calendar.set(Calendar.MONTH, 11);
+        calendar.set(Calendar.DAY_OF_MONTH, 30);
         long endDiscountDate = calendar.getTimeInMillis();
-        calendar.set(Calendar.DAY_OF_MONTH,1);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
         long startDiscountDate = calendar.getTimeInMillis();
         return currentDate >= startDiscountDate && currentDate <= endDiscountDate;
     }
